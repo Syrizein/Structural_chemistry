@@ -1,0 +1,369 @@
+%
+% 使用 xelatex 编译
+%
+\documentclass[10pt,compress,t]{ctexbeamer}
+\usetheme{Warsaw}
+\usefonttheme[onlymath]{serif}
+
+%%%%% ===== 常用宏包 =======================================================
+\usepackage{amsmath,amssymb,amsfonts,bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{mathrsfs}
+
+\begin{document}
+
+\title[量子化学和Gaussian]{结构化学入门}
+% \subtitle{也可以有个副标题}
+
+\author[Adrian Xu]{徐韵杰}
+\institute[Chem.HIT]{\zihao{5} 哈尔滨工业大学~化工与化学学院}
+
+\date[2021.12]{2021年12月11日}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\begin{frame}{内容提要}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{简介}
+
+% 在每节前插入目录
+\AtBeginSection[]{\frame{\tableofcontents[currentsection,hideallsubsections]}}
+
+\begin{frame}
+ \frametitle{要讲的内容}
+\begin{itemize}
+\item 本次的涉及内容：
+
+\bigskip
+\item
+\uncover<2>{
+ 我们在这里仅仅讨论哈工大《结构化学》（A、B）课程的内容，即
+    \begin{itemize}
+        \item  量子理论基础
+        \item  原子结构
+        \item  分子结构
+    \end{itemize}
+ 也就是不包括后面的分子对称性、晶体结构等内容。
+
+ 总的来说内容很少，课时也不多，很多内容分配到了其他课程（固体结构有《固体化学》）里面去。
+}
+
+\item
+\uncover<2>{
+ 课程参考书籍为北大《结构化学基础》。
+}
+
+\item
+\uncover<2>{
+ 结构化学和其他化学不一样之处在于它的推导很多，对学生的数学物理基础要求比较高，如果高数线代大物的知识全忘了，会挺痛苦的。
+}
+
+\end{itemize}
+\end{frame}
+
+\section{量子理论基础}
+\begin{frame}{量子理论基础}
+\begin{itemize}
+\item 我们在这里只是选用结构化学有用的那部分量子力学基础。
+\item 如果需要严格学习，可以看Sakurai《现代量子力学》等，当然要求数学和物理基础更高，而且里面的一些东西以化学人的视角来看可能比较“多余”。
+\item 旧量子论：黑体辐射（Planck，德），引入了Planck常数$h$。
+
+物质的波粒二象性（de Broglie，意），不确定性原理（Heisenberg，德）
+\end{itemize}
+
+\begin{block}{原理：波粒二象性}
+    任何实物粒子都满足波粒二象性：
+    $$\nu = \frac{\epsilon}{h}$$
+    $$\lambda = \frac{h}{p}$$
+\end{block}  
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item
+量子力学理论可以说是建立在几个最基本的假设上面的，从这些假设推出量子力学的所有内容，而这些内容无一例外和实验符合很好。
+
+目前为止还没有找到反对量子力学的实验结果，因此我们可以认为这些假设是正确的。
+\end{itemize}
+\begin{block}{假设1：波函数}
+    量子体系应用一个函数$\Psi(x,y,z,t)$描述，称为波函数（wave function）。一个波函数描述了体系的完备信息，称为态。
+    波函数满足单值、连续、平方可积的条件。
+
+    平方可积：$$\vert \int _{\Omega} \Psi^2(x,y,z,t) \thinspace d\tau \thinspace \vert^2 < \infty $$
+\end{block} 
+\begin{itemize}
+    \item 波恩（Born，德）诠释：波函数是概率密度（p.d.f.）。
+    \item 一般来说，波函数需要归一化，这就是：
+    $$\vert \int _{\mbox{整个空间}} \Psi^2(x,y,z,t) \thinspace d\tau \thinspace \vert^2 = 1 $$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{block}{假设2：物理量}
+    所有可测力学量用线性的厄米（Hermite，法）算符表示。
+
+    算符（operator）是函数之间的映射：$ \mathscr{F} : f \rightarrow  g$
+
+    线性算符：
+    $$ \mathscr{F} (\alpha f + \beta g ) = \alpha  \mathscr{F} (f) + \beta  \mathscr{F} (g) $$
+    厄米算符：
+    $$ \int _{\Omega} f_1 \mathscr{F} (f_2) d\tau = \int _{\Omega} f_2 \mathscr{F}^* (f_1^*) d\tau  $$
+\end{block}  
+\begin{itemize}
+    \item 评注：如果你觉得Hermite算符这个定义很讨厌，你不是一个人。在矩阵力学里面Hermite矩阵的定义会更直观，但是结构化学一般从波动力学入手，对矩阵力学只字不提，这是很不好的。
+    \item 在结构化学书里面算符用戴帽子的字母$\hat{\mathrm{F}}$表示，由于神秘的缘故，这个帽子放在斜体字母上总是带歪，所以我用粗体字表示。
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{block}{常见物理量的算符}
+    所有可测力学量都是坐标$x$和动量$p$的函数，而其对应的算符：
+    $$\bm{x} f =  xf $$
+    $$\bm{p}_x \thinspace f =  -i\hslash \thinspace \frac{\partial f}{\partial x} $$
+    而若一个力学量有表达式$y=y \thinspace (x,p_x)$，那么相应的可以写出算符的表达式$\bm{y} =y \thinspace (\bm{x} ,\bm{p}_x)$
+
+    例如：
+    $$T=\frac{p^2}{2m}$$
+    $$\bm{T}=\frac{\bm{p}^2}{2m}=-\frac{\hslash^2}{2m} (\frac{\partial^2 }{\partial x^2}+\frac{\partial^2 }{\partial y^2}+\frac{\partial^2 }{\partial z^2})=-\frac{\hslash^2}{2m} \nabla ^2 $$
+    其中，$\hslash=h / 2\pi$
+\end{block}  
+\end{frame}
+
+\begin{frame}
+\begin{block}{假设3：本征态}
+    若有算符$\bm{A}$，满足
+    $$\bm{A} \Psi = a \Psi $$
+    则$\bm{A}$对应的力学量$A$在$\Psi$对应的态有确定的取值$a$，这样的态称为本征态，这样的方程称为本征方程。
+\end{block}  
+\begin{itemize}
+    \item
+    评注：其实就是矩阵的特征方程、特征向量和特征值。
+    \item
+    我们知道一个矩阵可能有不同特征向量和对应特征值，这里也是如此。
+
+    Hermite算符的本征函数正交归一，并且总是有实的本征值。
+
+    （证明在此略）
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{block}{假设4：叠加态}
+    如果本征方程$\bm{A} \Psi = a \Psi $有解$\psi_1, \psi_2, ...$对应本征值$a_1, a_2, ...$，那么对它们进行线性叠加之后：
+    $$\Psi= \sum k_i \psi_i$$
+    得到的$\Psi$也是可能的态。物理量$A$对态$\Psi$仅有平均值：
+    $$\bar{A} = \sum |k_i|^2 a_i $$
+\end{block}  
+\begin{itemize}
+  \item 评注：$\Psi$是可能的态，但是不是本征态。在进行测量的时候，它的取值是不确定的，但是在进行大量实验后会发现$a_1, a_2, ...$以概率分布出现，各自的概率就是$|k_i|^2$。
+  \item 取模的平方的原因是$k_i$可能是复数。 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{block}{假设5：泡利（Pauli，德）不相容原理}
+  对多电子体系的波函数，交换两个电子之后，波函数必须反号。
+\end{block}  
+\begin{itemize}
+  \item
+  评注：我们可以说明，这和高中“一个轨道上最多只能填两个自旋方向相反的电子”说法等价。
+\end{itemize}
+\end{frame}
+
+\section{原子结构}
+\begin{frame}{薛定谔（Schrödinger，奥）方程}
+\begin{itemize}
+  \item 小故事：薛定谔和德拜（Debye，荷）讨论德布罗意的论文。德拜：对波粒二象性的本质讲的很好，但你能不能给出一个波动方程？
+\end{itemize}
+\begin{block}{薛定谔方程}
+  薛定谔方程是一个本征方程：
+  $$\bm{H} \Psi = i\hslash \frac{\partial}{\partial t} \Psi $$
+  在体系波函数不显含时间的时候，等价于：
+  $$\bm{H} \Psi = E \Psi $$
+
+  里面我们引入了一个新的算符：哈密顿（Hamilton，爱）算符
+  $$\bm{H} = \bm{T} + \bm{V} = -\frac{\hslash^2}{2m} \nabla ^2 + V $$
+\end{block}
+\end{frame}
+
+\begin{frame}{变量分离法}
+\begin{itemize}
+  \item 通过这种方法，我们可以写出最简单的氢原子体系的薛定谔方程。
+  $$ (-\frac{\hslash^2}{2m} \nabla ^2 - \frac{e^2}{4\pi \epsilon_0} \frac{1}{\sqrt{x^2+y^2+z^2}}) \psi = E \psi $$
+  \item 会发现带有根号根本解不动，球坐标为我们提供了解决方案：
+  $$ (-\frac{\hslash^2}{2m} \nabla ^2 - \frac{e^2}{4\pi \epsilon_0 r}) \psi = E \psi $$
+  利用哈特里（Hartree，英）原子单位制进一步化简：
+  $$ (-\frac{1}{2} \nabla ^2 - \frac{1}{r}) \psi = E \psi $$
+  哈特里原子单位的基本单位：约化普朗克常数$\hslash=1$，电子电荷量$e=1$，玻尔（Bohr，丹）半径$a_0=1$，电子质量$m_e=1$。
+  它对应的能量单位称为Ha，我们后面还有用。
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+ \begin{itemize}
+  \item 在球坐标系下，我们利用变量分离法：
+  $$\psi(r,\theta,\phi) = R(r) Y(\theta, \phi) =R(r)\Theta (\theta)\Phi(\phi)$$
+  经过痛苦而漫长的推导，我们会得到三个方程。
+  在解方程的过程里面，我们引入了三个参量：$l,m,n$来描述波函数：
+  $$\psi(r,\theta,\phi) = R_n (r) Y_{lm}(\theta, \phi)$$
+  $$n = 1,2,... ; l = 0,1,....,n-1 ; m = 0, \pm 1, ... \pm l$$
+  \item 具体的解答过程可以查任何量子力学的教材或Wikipedia。
+  \item 氢原子能级的计算结果：（单位：e V）
+  $$E_n = -13.6 × \frac{1}{n^2}$$
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{原子轨道}
+  \begin{itemize}
+    \item $n$称为主量子数、$l$称为角量子数、$n$称为磁量子数。
+    \item 第四个量子数$s$或者$m_s$没有出现在这里。它不是解薛定谔方程所得到的，而是为了解释原子光谱的精细结构而引入的。
+  \end{itemize}
+  \centering
+  \includegraphics[height=6cm]{orbital_art2.jpg}
+  \end{frame}
+
+\begin{frame}{原子能级的求算}
+\begin{itemize}
+  \item 类氢原子（只有一个电子的原子）能级的计算：
+  $$E_n = -13.6 × \frac{Z}{n^2}$$
+  \item 很不幸的是，如果到了氦原子之后我们有：
+  $$ (-\frac{1}{2} \nabla_1 ^2 -\frac{1}{2} \nabla_2 ^2 - \frac{2}{r_1} - \frac{2}{r_2} + \frac{1}{r_{12}}) \psi = E \psi $$
+  $1/r_{12}$给我们带来很大麻烦，因为在这个时候变量分离不可行了。
+  \item 针对此，斯莱特（Slater，美）提出一个经验规则：
+  $$E_n = -13.6 × \frac{Z^*}{n^2}$$
+  $Z^* = Z-\sigma $可以用一套经验方法得到。
+\end{itemize}
+\end{frame}
+
+\begin{frame}{原子光谱}
+\begin{itemize}
+  \item 原子光谱反映了原子的电子结构。在这里我们只讲原子光谱项：
+  $$^{2S+1} L$$
+  $S$是总自旋角动量，$L$是总轨道角动量。
+  $2S+1$叫做自旋多重度，如果追求简单理解，$S$可以看作是单电子的数目。
+\end{itemize}
+\end{frame}
+
+\section{分子结构}
+
+\begin{frame}{薛定谔方程求解的困境}
+  \begin{itemize}
+    \item 如果进入分子体系，一般方程更为复杂，因为有多个核和多个电子进行作用。
+    $$ (-\sum_i \frac{1}{2} \nabla_i ^2 - \sum_i \sum_A \frac{Z_A}{r_{iA}} + \sum_i \sum_{j<i} \frac{Z_A}{r_{ij}} + \sum_A \sum_{B<A} \frac{Z_A Z_B}{R_{AB}} ) \Psi = E \Psi $$
+  \end{itemize}
+  \begin{block}{变分法}
+    我们假定分子波函数可以由原子波函数组合得到：
+    $$ \Psi = \Psi(\psi_1,\psi_2, ... , \alpha_1, \alpha_2, ... ) $$
+    量子力学已经严格证明，任何波函数的计算值对应能量不小于实际体系能量。因此我们只需要调整参数，使得：
+    $$ \frac{\partial E}{\partial \alpha_1} = 0,  \frac{\partial E}{\partial \alpha_2} = 0, \dots$$
+  \end{block}
+\end{frame}
+
+\begin{frame}{基础性的例子}
+  \begin{itemize}
+    \item 原子轨道线性组合方法（LCAO）
+    $$ \Psi = \sum_i \alpha_i \psi_i $$
+    基本原则：对称性匹配（决定是否成键）、能量相近、最大重叠。
+    \item 氢分子离子的计算结果：
+    $$ E_1 = \frac{H_{aa}+H_{ab}}{1+S_{ab}}, \Psi_1 = \sqrt{\frac{1}{2+2S_{ab}}} (\psi_1 + \psi_2)$$
+    $$ E_2 = \frac{H_{aa}-H_{ab}}{1-S_{ab}}, \Psi_2 = \sqrt{\frac{1}{2-2S_{ab}}} (\psi_1 - \psi_2)$$
+    三个简写方法：
+    \begin{itemize}
+      \item $H_{aa}$库仑积分（$\alpha$），近似相当于单原子的能量，负值。
+      \item $H_{ab}$交换积分（$\beta$），决定了成键强度，负值。
+      \item $S_{ab}$重叠积分，取决于轨道的重叠程度，正值。
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{基础性的例子}
+  \begin{block}{杂化轨道理论}
+    碳原子的电子组态应该是有两个单电子填两个p轨道，理应只能形成两根键，但实际上甲烷是四面体结构。
+    为了解释这一点，Pauling提出，在$AB_x$分子里面，为了提高成键效率，中心原子一组能量相近的轨道可以线性组合。
+    $$ \Psi_A = \sum_i \alpha_{Ai} \psi_i $$
+    并且保留正交归一性质，原有原子轨道在杂化轨道里面的占比
+    $$ \sum_i |\alpha_{Ai}|^2=1 $$。
+  \end{block}
+\end{frame}
+
+\begin{frame}{基础性的例子}
+  \begin{block}{休克尔（Hückel，德）分子轨道方法（HMO）}
+    休克尔认为单环共轭$\pi$体系可以用下面的近似方法。
+    \begin{itemize}
+      \item 每个碳的库仑积分相等。
+      \item 相邻的碳交换积分、重叠积分相等。
+      \item 不相邻的碳完全不成键，交换积分和重叠积分均为0。
+    \end{itemize}
+    因此
+    $$ \Psi = \sum_i c_{i} \psi_i $$
+    在变分之后得到方程
+    $$
+    \begin{bmatrix}
+    H_{11}-ES_{11} & H_{12}-ES_{12} & \cdots & H_{1n}-ES_{1n} \\
+    H_{21}-ES_{21} & H_{22}-ES_{22} & \cdots & H_{2n}-ES_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    H_{n1}-ES_{n1} & H_{n1}-ES_{n2} & \cdots & H_{nn}-ES_{nn}
+    \end{bmatrix}
+    \begin{bmatrix}
+    c_1 \\ c_2 \\ \vdots \\ c_n
+    \end{bmatrix}
+    =0
+    $$
+  \end{block}
+\end{frame}
+
+\begin{frame}{基础性的例子}
+  \begin{block}{休克尔分子轨道方法（HMO）（续）}
+    在休克尔的约定下化简，矩阵成为了一个非常简单的形式：
+    \begin{itemize}
+      \item 对角线元均为$\alpha-E$；
+      \item 如果两个碳原子有连接，对应的非对角元上为$\beta$；
+      \item 其他地方均为0。
+    \end{itemize}
+    或者，记对应的邻接矩阵（不算自环）为$\mathbf{A}$，单位阵$\mathbf{I}$，
+    对应矩阵变成$\beta \mathbf{A} + (\alpha - E) \mathbf{I} $。设
+    $$ x = \frac{\alpha - E}{\beta} $$
+    令矩阵的行列式为0，解出$x$，回代到方程里面对应解出一组分子轨道和能量。
+  \end{block}
+  \begin{itemize}
+    \item 这个方法在能量上是非常不精确的，但是在有机化学定性分析上面非常常用。
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{分子的计算方法}
+  \begin{itemize}
+    \item 计算化学的意义：解释、预测。
+    \item 计算化学一般采用两种方法：从头算（ab initio）和半经验方法。
+    
+    从头算方法不用实验数据而是直接从一个比较“完整”的波函数进行计算，当然从头算方法也不是完美的，因为它也有引入假设，如BO（Born-Oppenheimer）近似，非相对论性近似，单电子近似。
+    
+    半经验方法利用了一些实验数据来取代从头算里面最难算的部分。
+    \item 计算结果需要和实验结果形成对照。越来越多的纯实验课题组开始在成果里面利用密度泛函理论等方法进行计算。
+  \end{itemize}
+\end{frame}
+
+\section{Gaussian操作入门}
+\begin{frame}{利用Gaussian进行计算}
+  Gaussian是计算化学的基本软件。其他计算软件和Gaussian大同小异，因此我们在这里只讨论Gaussian。
+  \begin{itemize}
+    \item 输入文件
+    \item 利用GaussView进行分子建模。
+    \item 计算和输出文件
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[c,plain]
+\begin{center}
+\Huge\color{blue}\heiti\bfseries 谢\quad 谢!
+
+  Thank you!
+\end{center}
+\end{frame}
+
+\end{document} 
